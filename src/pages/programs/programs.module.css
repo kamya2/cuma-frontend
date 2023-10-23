@@ -1,0 +1,9 @@
+.pfeaturedTitle {
+  margin-bottom: 0.5rem !important;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.pfeaturedMoney {  
+  font-weight: 800;  
+}

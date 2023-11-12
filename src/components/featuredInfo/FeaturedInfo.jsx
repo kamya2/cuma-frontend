@@ -55,7 +55,7 @@ const FeaturedInfo = () => {
             <div className="col-9">
               <h3 className={featureInfoStyle.featuredTitle}>Programs</h3>
               <h4 className={featureInfoStyle.successDigit}>261</h4>
-              <Link to={"/program"}>
+              <Link to={"/programs"}>
                 <Button className={classes.primary}>All Programs</Button>
               </Link>
             </div>

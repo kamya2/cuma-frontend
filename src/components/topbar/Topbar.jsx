@@ -38,11 +38,7 @@ const Topbar = ({ toggleSidebar }) => {
       <section className={topbarStyle.topbar}>
         <main className={topbarStyle.topbarWrapper}>
           <div className={topbarStyle.topLeft}>
-            <MdMenu
-              className={topbarStyle.sidebarIcon}
-              size={30}
-              onClick={toggleSidebar} // Call the toggleSidebar function on menu button click
-            />
+           
             <span className={topbarStyle.logo}>CuMA</span>
           </div>
           <div className={topbarStyle.topRight}>

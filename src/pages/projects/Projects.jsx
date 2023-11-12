@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
-import dataGridStyle from "./projects.module.css";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { BaseURL } from "../../constants";
 import Button from "../../components/button/button";
 import classes from "../../components/button/button.module.css";
 import Pagination from "react-bootstrap/Pagination";
 
 const Projects = (props) => {
-  const [data, setData] = useState([]);
+  const { programId } = useParams(); // Get the programId from the route parameters
 
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(5);
 
   useEffect(() => {
-    const url = `${BaseURL}project_list`;
+    const url = programId
+      ? `${BaseURL}courses/${programId}` // Fetch courses for the selected program
+      : `${BaseURL}project_list`; // Fetch all projects if programId is not present
     const config = {
       headers: {
         "content-type": "application/json",
       },
       withCredentials: true,
     };
+
     axios.get(url, config).then(
       (response) => {
-        //console.log(response.data)
         setData(response.data);
         if (response.data.success === "false") {
         }
@@ -32,11 +34,7 @@ const Projects = (props) => {
         console.log(error);
       }
     );
-  }, []);
-  //console.log("data: "+data);
-  const handleDelete = (id) => {
-    setData(data.filter((row) => row.id !== id));
-  };
+  }, [programId]);
 
   const calculateIndex = () => {
     const indexOfLastRow =
@@ -46,9 +44,7 @@ const Projects = (props) => {
   };
 
   const [indexOfFirstRow, indexOfLastRow] = calculateIndex();
-
   const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
-
   const totalPages = Math.ceil(data.length / rowsPerPage);
 
   const handleClick = (pageNumber) => {
@@ -60,53 +56,31 @@ const Projects = (props) => {
       <div className="col-xs-12 col-sm-12 col-md-10 col-lg-10 mt-4">
         <div className="row">
           <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-            <h3>List of Projects</h3>
+            <h3>{programId ? `List of Courses in Program ${programId}` : "List of Projects"}</h3>
           </div>
           <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-            <Link to={"/new-project"}>
-              <Button className={`${classes.primary} float-end`}>
-                Create New Project
-              </Button>
-            </Link>
+            {!programId && (
+              <Link to={"/new-project"}>
+                <Button className={`${classes.primary} float-end`}>
+                  Create New Project
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
+        {programId && (
+          <div className="row">
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <Link to={`/programs/${programId}/courses`}>
+                <Button className={`${classes.primary} float-end`}>
+                  See All Courses
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
         <div className="table-responsive mt-4">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Projects</th>
-                <th>Owners</th>
-                <th>Guests</th>
-                <th>Members</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentRows.map((row) => (
-                <tr key={row.id}>
-                  <td className="align-middle">{row.id}</td>
-                  <td className="align-middle">
-                    <span>{row.name}</span>
-                  </td>
-                  <td className="align-middle">
-                    <span>{row.owners}</span>
-                  </td>
-                  <td className="align-middle">
-                    <span>{row.guests}</span>
-                  </td>
-                  <td className="align-middle">
-                    <span>{row.members}</span>
-                  </td>
-                  <td className="align-middle">
-                    <Link to={`/edit-project/${row.id}`}>
-                      <Button>Edit Project</Button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {/* Rest of your code for rendering the table */}
         </div>
         <Pagination>
           {Array.from({ length: totalPages }, (_, index) => index + 1).map(

@@ -51,6 +51,7 @@ const CourseList = () => {
 
   const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
 
+  console.log(data)
   const totalPages = Math.ceil(data.length / rowsPerPage);
 
   const handleClick = (pageNumber) => {

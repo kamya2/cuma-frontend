@@ -13,6 +13,7 @@ import Projects from "./pages/projects/Projects";
 import EditProject from "./pages/editProject/EditProject";
 import NewProgram from "./pages/newProgram/newProgram";
 import Programs from "./pages/programs/Programs";
+import NewFaculty from "./pages/newFaculty/NewFaculty";
 import Course from "./pages/course/Course";
 import NewCourse from "./pages/newCourse/newCourse";
 import CuriMaps from "./pages/curiMaps/CuriMaps";
@@ -36,6 +37,8 @@ function App() {
           <Route path="new-program/:projectId" element={<NewProgram />} />
           <Route path="programs" element={<Programs />} />
           <Route path="program-list" element={<ProgramList />} />
+          <Route path="new-faculty" element={<NewFaculty />} />
+
           <Route
             path="edit-program/:projectId/:programId"
             element={<EditProgram />}

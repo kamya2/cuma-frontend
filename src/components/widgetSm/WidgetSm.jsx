@@ -4,12 +4,15 @@ import classes from "../button/button.module.css";
 import windsor from "../../images/windsor.png";
 import { AiFillEye } from "react-icons/ai";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { BaseURL } from "../../constants";
 import Button from "../button/button";
 import Card from "../card/card";
 
 const WidgetSm = () => {
   const [data, setData] = useState({ name: "MAC" });
+  const [facultyList, setFacultyList] = useState([]);
+  const [showAddFacultyModal, setShowAddFacultyModal] = useState(false);
   useEffect(() => {
     const url = `${BaseURL}faculty_list`;
     const config = {
@@ -27,6 +30,11 @@ const WidgetSm = () => {
     );
   }, []);
 
+  const handleAddFacultyClick = () => {
+    // Show or hide the modal/form for adding a new faculty member
+    setShowAddFacultyModal(!showAddFacultyModal);
+  };
+
   let faculty_list = [];
   for (let value in data) {
     faculty_list.push(data[value].name);
@@ -35,6 +43,11 @@ const WidgetSm = () => {
     <Card>
       <h3 className={styled.widgetSmTitle}>Faculty</h3>
       <div className="table-responsive ">
+      <Link to={"/new-Faculty"}>
+      <Button className={classes.primary} onClick={handleAddFacultyClick}>
+        Add Faculty
+      </Button>
+      </Link>
         <table className="table table-borderless">
           <thead>
             <tr>

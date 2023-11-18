@@ -15,7 +15,7 @@ const CourseList = () => {
   const [rowsPerPage] = useState(5);
 
   useEffect(() => {
-    const url = `${BaseURL}course_list`;
+    const url = `${BaseURL}getAllCourses`;
     const config = {
       headers: {
         "content-type": "application/json",

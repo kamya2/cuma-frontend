@@ -39,8 +39,8 @@ const Programs = () => {
               <h3 className={programStyle.pfeaturedTitle}>{name}</h3>
               <h4 className={programStyle.pfeaturedMoney}>261</h4>
               {/* <span className="pfeaturedMoneyRate"></span> */}
-              <Link to="/course-list">
-                <Button className={classes.primary}>See all Courses</Button>
+              <Link to="/program-list">
+                <Button className={classes.primary}>See all Programs</Button>
               </Link>
             </Card>
           </div>

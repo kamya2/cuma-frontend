@@ -52,7 +52,7 @@ const WidgetSm = () => {
           <thead>
             <tr>
               <th></th>
-              <th>Program</th>
+             
               <th></th>
             </tr>
           </thead>

@@ -20,6 +20,8 @@ import CuriMaps from "./pages/curiMaps/CuriMaps";
 import NewMap from "./pages/newMap/NewMap";
 import EditMap from "./pages/editMaps/EditMap";
 import Board from "./pages/board/Board";
+import ProjectList from "./pages/projectList/ProjectList";
+
 
 function App() {
   return (
@@ -33,6 +35,7 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="userProfile" element={<UserProfile />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="project-list" element={<ProjectList />} />
           <Route path="edit-project/:projectId" element={<EditProject />} />
           <Route path="new-program/:projectId" element={<NewProgram />} />
           <Route path="programs" element={<Programs />} />

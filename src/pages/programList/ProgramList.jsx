@@ -73,7 +73,7 @@ const ProgramList = () => {
           <h3>List of Programs</h3>
         </div>
         <div className="col-4">
-          <Link to={"/new-program"}>
+          <Link to={"/addProgram"}>
             <Button className={`${classes.primary} float-end`}>
               Create Program
             </Button>

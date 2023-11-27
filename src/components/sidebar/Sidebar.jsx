@@ -7,6 +7,8 @@ import {
   Subject,
   Bookmark,
   Bookmarks,
+  Assessment,
+  Review,
   Book,
   BarChart,
   MailOutline,
@@ -20,7 +22,7 @@ const sidebarItems = [
   {
     title: "Dashboard",
     icons: [<Home />, <Folder />, <Subject />],
-    links: ["/home", "/project-list", "/programs"],
+    links: ["/home", "/project-list", "/programs", ],
   },
   {
     title: "Quick Menu",
@@ -33,7 +35,11 @@ const Sidebar = ({ sidebarOpen }) => {
   const location = useLocation();
 
   return (
-    <div className={`col-sm-12 col-xs-12 col-md-2 col-lg-2 ${sidebarOpen ? 'sidenav' : 'sidenavClosed'}`}>
+    <div
+      className={`col-sm-12 col-xs-12 col-md-2 col-lg-2 ${
+        sidebarOpen ? "sidenav" : "sidenavClosed"
+      }`}
+    >
       <div className="sidebarWrapper">
         {sidebarItems.map((section, index) => (
           <div key={index} className="sidebarMenu mt-4">
@@ -41,9 +47,26 @@ const Sidebar = ({ sidebarOpen }) => {
             <ul className="sidebarList">
               {section.icons.map((icon, i) => (
                 <Link to={section.links[i]} className="link" key={i}>
-                  <li className={`sidebarListItem mt-2 ${location.pathname === section.links[i] ? 'active' : ''}`}>
+                  <li
+                    className={`sidebarListItem mt-2 ${
+                      location.pathname === section.links[i] ? "active" : ""
+                    }`}
+                  >
                     {React.cloneElement(icon, { className: "sidebarIcon" })}
-                    {section.title === "Dashboard" && section.links[i] === "/home" ? "Home" : section.title === "Dashboard" && section.links[i] === "/project-list" ? "Projects" : section.title === "Dashboard" && section.links[i] === "/programs" ? "Programs" : section.title === "Quick Menu" && section.links[i] === "/program-list" ? "Your Programs" : section.title === "Quick Menu" && section.links[i] === "/course-list" ? "Your Courses" : section.title === "Quick Menu" && section.links[i] === "/curiMaps" ? "Curriculum Maps" : null}
+                    {section.title === "Dashboard" &&
+                    section.links[i] === "/home"
+                    ? "Home"
+                    : section.title === "Dashboard" && section.links[i] === "/project-list"
+                    ? "Projects"
+                    : section.title === "Dashboard" && section.links[i] === "/programs"
+                    ? "Programs"
+                    : section.title === "Quick Menu" && section.links[i] === "/program-list"
+                    ? "Your Programs"
+                    : section.title === "Quick Menu" && section.links[i] === "/course-list"
+                    ? "Your Courses"
+                    : section.title === "Quick Menu" && section.links[i] === "/curiMaps"
+                    ? "Curriculum Maps"
+                    : null}
                   </li>
                 </Link>
               ))}

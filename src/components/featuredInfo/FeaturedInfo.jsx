@@ -73,7 +73,7 @@ const FeaturedInfo = () => {
             <div className="col-9">
               <h3 className={featureInfoStyle.featuredTitle}>Courses</h3>
               <h4 className={featureInfoStyle.successDigit}>524</h4>
-              <Link to={"/products"}>
+              <Link to={"/course-list"}>
                 <Button className={classes.primary}>All Courses</Button>
               </Link>
             </div>

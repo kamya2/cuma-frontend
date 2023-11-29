@@ -37,7 +37,7 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="project-list" element={<ProjectList />} />
           <Route path="edit-project/:projectId" element={<EditProject />} />
-          <Route path="new-program/:projectId" element={<NewProgram />} />
+          <Route path="addProgram" element={<NewProgram />} />
           <Route path="programs" element={<Programs />} />
           <Route path="program-list" element={<ProgramList />} />
           <Route path="new-faculty" element={<NewFaculty />} />
@@ -46,11 +46,13 @@ function App() {
             path="edit-program/:projectId/:programId"
             element={<EditProgram />}
           />
+        
           <Route path="new-project" element={<NewProject />} />
+
           <Route path="edit-project" element={<EditProject />} />
           <Route path="course-list" element={<CourseList />} />
           <Route path="course/:courseId" element={<Course />} />
-          <Route path="new-course/:projectId" element={<NewCourse />} />
+          <Route path="addProjectCourse" element={<NewCourse />} />
           <Route path="curiMaps" element={<CuriMaps />} />
           <Route path="newMap" element={<NewMap />} />
           <Route path="editMap" element={<EditMap />} />

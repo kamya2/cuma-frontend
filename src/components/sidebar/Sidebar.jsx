@@ -22,7 +22,7 @@ const sidebarItems = [
   {
     title: "Dashboard",
     icons: [<Home />, <Folder />, <Subject />],
-    links: ["/home", "/project-list", "/programs", ],
+    links: ["/home", "/project_list", "/programs", ],
   },
   {
     title: "Quick Menu",
@@ -56,7 +56,7 @@ const Sidebar = ({ sidebarOpen }) => {
                     {section.title === "Dashboard" &&
                     section.links[i] === "/home"
                     ? "Home"
-                    : section.title === "Dashboard" && section.links[i] === "/project-list"
+                    : section.title === "Dashboard" && section.links[i] === "/project_list"
                     ? "Projects"
                     : section.title === "Dashboard" && section.links[i] === "/programs"
                     ? "Programs"

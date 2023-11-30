@@ -15,7 +15,7 @@ const ProjectList = () => {
   const [rowsPerPage] = useState(5);
 
   useEffect(() => {
-    const url = `${BaseURL}getAllProjects`; // Adjust API endpoint
+    const url = `${BaseURL}project_list`; // Adjust API endpoint
     const config = {
       headers: {
         "content-type": "application/json",
@@ -24,6 +24,7 @@ const ProjectList = () => {
     };
     axios.get(url, config).then(
       (response) => {
+        console.log("problem", response.data)
         setData(response.data);
         if (response.data.success === "false") {
           // Handle error if needed

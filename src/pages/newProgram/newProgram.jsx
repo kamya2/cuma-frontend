@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BaseURL } from "../../constants";
@@ -6,6 +5,9 @@ import Button from "../../components/button/button";
 import classes from "../../components/button/button.module.css";
 import { useParams } from "react-router-dom";
 import { MultiSelect } from "react-multi-select-component";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+
 import { KeyboardArrowLeftOutlined } from "@material-ui/icons";
 
 const NewProgram = () => {
@@ -20,9 +22,35 @@ const NewProgram = () => {
   const [docID, setDocID] = useState("");
   const [error, setError] = useState("");
   const [outcomes, setOutcomes] = useState([
-    { description: "", alignments: [] },
+    { description: "", alignment: "" },
   ]);
-  console.log(projectId);
+
+  const outcomesRows = [["", ""]];
+
+  const UGA_OPTIONS = [
+    {
+      value: "A",
+      label: "A - the acquisition, application and integration of knowledge",
+    },
+    {
+      value: "B",
+      label:
+        "B - research skills, including the ability to define problems and access, retrieve and evaluate information (information literacy)",
+    },
+    { value: "C", label: "C - critical thinking and problem-solving skills" },
+    { value: "D", label: "D - literacy and numeracy skills" },
+    {
+      value: "E",
+      label: "E - responsible behaviour to self, others and society",
+    },
+    { value: "F", label: "F - interpersonal and communications skills" },
+    {
+      value: "G",
+      label: "G - teamwork, and personal and group leadership skills",
+    },
+    { value: "H", label: "H - creativity and aesthetic appreciation" },
+    { value: "I", label: "I - the ability and desire for continuous learning" },
+  ];
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -34,19 +62,13 @@ const NewProgram = () => {
       const allfaculty = `${BaseURL}faculty_list`;
       const UGAAlignmentList = `${BaseURL}uga_alignments_list`;
 
-      const getFacultyList = axios.get(allfaculty);
-      const getUGAAlignment = axios.get(UGAAlignmentList);
-
-      const [facultyList, UGAAlignment] = await axios.all([
-        getFacultyList,
-        getUGAAlignment,
+      const [facultyList, UGAAlignment] = await Promise.all([
+        fetch(allfaculty).then((response) => response.json()),
+        fetch(UGAAlignmentList).then((response) => response.json()),
       ]);
 
-      const allFacultyData = facultyList.data;
-      const allUGAData = UGAAlignment.data;
-
-      setData(allFacultyData);
-      setUgaAlignments(allUGAData);
+      setData(facultyList);
+      setUgaAlignments(UGAAlignment);
     } catch (error) {
       console.log(error);
     }
@@ -56,24 +78,22 @@ const NewProgram = () => {
     fetchData();
   }, []);
 
-  //Select Faculty handler
   const handleFacultyChange = (e) => {
     setSelectedFaculty(e.target.value);
   };
 
-  //Select Academic Level Handler
   const handleAcademicLevelChange = (e) => {
     setAcademicLevel(e.target.value);
   };
 
-  const handleUGAChange = (selectedOptions, outcomeIndex) => {
+  const handleUGAChange = (selectedOption, outcomeIndex) => {
     setOutcomes((prevOutcomes) => {
       const updatedOutcomes = [...prevOutcomes];
-      updatedOutcomes[outcomeIndex].alignments = selectedOptions;
+      updatedOutcomes[outcomeIndex].alignment = selectedOption;
       return updatedOutcomes;
     });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `${BaseURL}addProjectProgram`;
@@ -100,25 +120,29 @@ const NewProgram = () => {
       })),
     };
 
-    const target = e.nativeEvent.explicitOriginalTarget || e.target; // Get the target element that triggered the event
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
 
-    if (!target.classList.contains("add-outcome-button")) {
-      try {
-        const response = await axios.post(url, body, config);
-        if (response.data.success === false) {
-          setError(response.data.message);
-        } else {
-          // Assuming the server responds with the updated project list
-          const updatedProjectList = response.data.project_list;
-          // Update the UI or perform any necessary actions with the updated project list
+      const result = await response.json();
 
-          window.location.href = `/edit-project/${projectId}`;
-          setError("");
-        }
-      } catch (error) {
-        console.log(error);
-        setError("An error occurred while adding the project.");
+      if (result.success === false) {
+        setError(result.message);
+      } else {
+        // Assuming the server responds with the updated project list
+        const updatedProjectList = result.project_list;
+        // Update the UI or perform any necessary actions with the updated project list
+        window.location.href = `/edit-project/${projectId}`;
+        setError("");
       }
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred while adding the project.");
     }
   };
 
@@ -135,9 +159,61 @@ const NewProgram = () => {
     });
   };
 
+  const handleConvertToPDF = () => {
+    try {
+      const pdf = new jsPDF();
+
+      // Add top information to the PDF
+      const topInfoRows = [
+        ["Program Name", programName],
+        ["Academic Level", academicLevel],
+        ["Faculty", selectedFaculty],
+        ["Revision Start", revisionDate],
+        ["Document ID", docID],
+      ];
+      pdf.autoTable({
+        head: [],
+        body: topInfoRows,
+        startY: 15,
+      });
+
+      // Add a separator
+      pdf.setFontSize(12);
+      pdf.text(
+        "Outcomes and UGA Alignments",
+        14,
+        pdf.autoTable.previous.finalY + 10
+      );
+
+      // Add Outcomes and UGA Alignments to the PDF
+      outcomes.forEach((outcome, index) => {
+        outcomesRows.push([`Outcome ${index + 1}`, outcome.description]);
+
+        // Check if outcome.alignment is defined before accessing its properties
+        const alignmentInfo = outcome.alignment
+          ? `${outcome.alignment.label} - ${outcome.alignment.value}`
+          : "";
+        outcomesRows.push(["", alignmentInfo]);
+      });
+
+      pdf.autoTable({
+        head: [],
+        body: outcomesRows,
+        startY: pdf.autoTable.previous.finalY + 15,
+      });
+
+      // Generate PDF
+      pdf.save("program_form.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
+
   return (
     <div className="col-xs-12 col-sm-12 col-md-10 col-lg-10 mt-4 mb-4">
-      <h3><KeyboardArrowLeftOutlined onClick={goBack} /> New Program</h3>
+      <h3>
+        <KeyboardArrowLeftOutlined onClick={goBack} /> New Program
+      </h3>
       <div className="row mt-3 mb-3">
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form className="row" onSubmit={handleSubmit}>
@@ -239,28 +315,19 @@ const NewProgram = () => {
                     </div>
                     <div className="col-4 mt-3">
                       <label>UGA Alignments</label>
-                      <MultiSelect
-                        options={ugaAlignments.map((uga) => ({
-                          value: uga.legend,
-                          label: `${uga.legend} - ${uga.description}`,
-                        }))}
-                        value={outcome.alignments}
-                        onChange={(selectedOptions) =>
-                          handleUGAChange(selectedOptions, index)
-                        }
-                        labelledBy="Select UGA Alignment"
-                        selectAllLabel="Select All"
-                        disableSearch={false}
-                        overrideStrings={{
-                          selectSomeItems: "Select UGA Alignments",
-                          allItemsAreSelected:
-                            "All UGA Alignments are selected",
-                          searchPlaceholder: "Search UGA Alignments",
-                          noOptions: "No UGA Alignments found",
-                        }}
-                      />
+                      <select
+                        className="form-control"
+                        value={outcome.alignment}
+                        onChange={(e) => handleUGAChange(e.target.value, index)}
+                      >
+                        <option value="">Select UGA Alignment</option>
+                        {UGA_OPTIONS.map((uga) => (
+                          <option key={uga.value} value={uga.value}>
+                            {uga.label}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-
                     <div className="col-2 mt-3 d-flex justify-content-center align-items-center">
                       <Button
                         className={classes.danger}
@@ -271,21 +338,24 @@ const NewProgram = () => {
                     </div>
                   </div>
                 ))}
-                <div className="col-12 mt-3">
-                  <Button
-                    type="button"
-                    className={`${classes.primary} add-outcome-button`}
-                    onClick={handleAddOutcome}
-                  >
-                    Add
-                  </Button>
-                </div>
               </div>
+              <div className="col-12 mt-3">
+                <Button
+                  type="button"
+                  className={`${classes.primary} add-outcome-button`}
+                  onClick={handleAddOutcome}
+                >
+                  Add
+                </Button>
+              </div>
+            </div>
 
-              <div className="mt-3">
-                <Button className={classes.primary}>Create Program</Button>
-                {error && <div className="error text-danger">{error}</div>}
-              </div>
+            <div className="mt-3">
+              <Button className={classes.primary} onClick={handleConvertToPDF}>
+                Convert to PDF
+              </Button>
+              <Button className={classes.primary}>Create Program</Button>
+              {error && <div className="error text-danger">{error}</div>}
             </div>
           </form>
         </div>

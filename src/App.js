@@ -35,7 +35,7 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="userProfile" element={<UserProfile />} />
           <Route path="projects" element={<Projects />} />
-          <Route path="project-list" element={<ProjectList />} />
+          <Route path="project_list" element={<ProjectList />} />
           <Route path="edit-project/:projectId" element={<EditProject />} />
           <Route path="addProgram" element={<NewProgram />} />
           <Route path="programs" element={<Programs />} />

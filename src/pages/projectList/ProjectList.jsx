@@ -24,7 +24,7 @@ const ProjectList = () => {
     };
     axios.get(url, config).then(
       (response) => {
-        console.log("problem", response.data)
+        console.log("problem", response.data);
         setData(response.data);
         if (response.data.success === "false") {
           // Handle error if needed
@@ -98,7 +98,7 @@ const ProjectList = () => {
                     <span>{row.status}</span>
                   </td>
                   <td className="align-middle">
-                    <Link to={"/project/" + row.id}>
+                    <Link to={`/edit-project/${row.id}`}>
                       <Button className={classes.warning}>Edit</Button>
                     </Link>
                     &nbsp;&nbsp;&nbsp;

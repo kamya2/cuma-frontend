@@ -21,14 +21,10 @@ import {
 const sidebarItems = [
   {
     title: "Dashboard",
-    icons: [<Home />, <Folder />, <Subject />],
-    links: ["/home", "/project_list", "/programs", ],
+    icons: [<Home />, <Folder />, <Subject />,  <Book />],
+    links: ["/home", "/project_list", "/faculties", "/curiMaps"],
   },
-  {
-    title: "Quick Menu",
-    icons: [<Bookmark />, <Bookmarks />, <Book />],
-    links: ["/program-list", "/course-list", "/curiMaps"],
-  },
+  
 ];
 
 const Sidebar = ({ sidebarOpen }) => {
@@ -58,13 +54,13 @@ const Sidebar = ({ sidebarOpen }) => {
                     ? "Home"
                     : section.title === "Dashboard" && section.links[i] === "/project_list"
                     ? "Projects"
-                    : section.title === "Dashboard" && section.links[i] === "/programs"
-                    ? "Programs"
+                    : section.title === "Dashboard" && section.links[i] === "/faculties"
+                    ? "Faculties"
                     : section.title === "Quick Menu" && section.links[i] === "/program-list"
                     ? "Your Programs"
                     : section.title === "Quick Menu" && section.links[i] === "/course-list"
                     ? "Your Courses"
-                    : section.title === "Quick Menu" && section.links[i] === "/curiMaps"
+                    : section.title === "Dashboard" && section.links[i] === "/curiMaps"
                     ? "Curriculum Maps"
                     : null}
                   </li>

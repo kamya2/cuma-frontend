@@ -53,9 +53,6 @@ const NewProgram = () => {
   ];
 
   const navigate = useNavigate();
-  const goBack = () => {
-    navigate(-1);
-  };
 
   const fetchData = async () => {
     try {
@@ -93,7 +90,7 @@ const NewProgram = () => {
       return updatedOutcomes;
     });
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `${BaseURL}addProjectProgram`;
@@ -103,7 +100,7 @@ const NewProgram = () => {
       },
       withCredentials: true,
     };
-
+  
     const body = {
       project_id: projectId,
       name: programName,
@@ -115,11 +112,11 @@ const NewProgram = () => {
       state: "draft",
       parent_program_id: null,
       alignments: outcomes.map((outcome) => ({
-        legend: outcome.alignments.map((uga) => uga.value).join(""),
+        legend: outcome.alignment,  // assuming alignment is a single value
         description: outcome.description,
       })),
     };
-
+  
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -128,23 +125,24 @@ const NewProgram = () => {
         },
         body: JSON.stringify(body),
       });
-
+  
       const result = await response.json();
-
+  
       if (result.success === false) {
         setError(result.message);
       } else {
-        // Assuming the server responds with the updated project list
-        const updatedProjectList = result.project_list;
-        // Update the UI or perform any necessary actions with the updated project list
-        window.location.href = `/edit-project/${projectId}`;
+        // Redirect to the program list page after creating a new program
+        navigate(`/edit-project/${projectId}/program-list`);
         setError("");
       }
     } catch (error) {
-      console.log(error);
-      setError("An error occurred while adding the project.");
+      console.error("Error adding program:", error);
+      setError("An error occurred while adding the program.");
     }
   };
+  
+
+
 
   const handleAddOutcome = () => {
     const newOutcome = { description: "", alignments: [] };
@@ -207,6 +205,10 @@ const NewProgram = () => {
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
+  };
+
+  const goBack = () => {
+    navigate(-1);
   };
 
   return (
@@ -354,8 +356,10 @@ const NewProgram = () => {
               <Button className={classes.primary} onClick={handleConvertToPDF}>
                 Convert to PDF
               </Button>
-              <Button className={classes.primary}>Create Program</Button>
-              {error && <div className="error text-danger">{error}</div>}
+              <Button type="submit" className={classes.primary}>
+  Create Program
+</Button>
+                {error && <div className="error text-danger">{error}</div>}
             </div>
           </form>
         </div>

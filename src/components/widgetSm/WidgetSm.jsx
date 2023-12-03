@@ -18,7 +18,8 @@ const WidgetSm = () => {
     const config = {
       headers: {
         "content-type": "application/json",
-      },withCredentials: true,
+      },
+      withCredentials: true,
     };
     axios.get(url, config).then(
       (response) => {
@@ -42,17 +43,16 @@ const WidgetSm = () => {
   return (
     <Card>
       <h3 className={styled.widgetSmTitle}>Faculty</h3>
-      <div className="table-responsive ">
-      <Link to={"/new-Faculty"}>
-      <Button className={classes.primary} onClick={handleAddFacultyClick}>
-        Add Faculty
-      </Button>
-      </Link>
+      <div className={styled.scrollableContainer}>
+        <Link to={"/new-Faculty"}>
+          <Button className={classes.primary} onClick={handleAddFacultyClick}>
+            Add Faculty
+          </Button>
+        </Link>
         <table className="table table-borderless">
           <thead>
             <tr>
               <th></th>
-             
               <th></th>
             </tr>
           </thead>

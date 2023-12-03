@@ -77,7 +77,6 @@ const ProjectList = () => {
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Project Name</th>
                 <th>My Role</th>
                 <th>Status</th>
@@ -87,9 +86,8 @@ const ProjectList = () => {
             <tbody>
               {currentRows.map((row) => (
                 <tr key={row.id}>
-                  <td className="align-middle">{row.id}</td>
                   <td className="align-middle">
-                    <span>{row.projectName}</span>
+                    <span>{row.name}</span>
                   </td>
                   <td className="align-middle">
                     <span>{row.myRole}</span>

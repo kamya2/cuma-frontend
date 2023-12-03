@@ -41,7 +41,7 @@ const NewProject = () => {
         // Assuming the server responds with the updated project list
         const updatedProjectList = response.data.project_list;
         // Update the UI or perform any necessary actions with the updated project list
-        window.location.href = "/projects";
+        window.location.href = "/project_list";
         setError("");
       }
     } catch (error) {

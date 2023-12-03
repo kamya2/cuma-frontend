@@ -66,11 +66,7 @@ const CourseList = () => {
             <h3>List of Courses</h3>
           </div>
           <div className="col-4">
-            <Link to={"/addProjectCourse"}>
-              <Button className={`${classes.primary} float-end`}>
-                Create Course
-              </Button>
-            </Link>
+          
           </div>
         </div>
         <div className="table-responsive mt-4">

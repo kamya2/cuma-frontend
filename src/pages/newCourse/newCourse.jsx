@@ -9,7 +9,11 @@ import { useParams } from "react-router-dom";
 import { MultiSelect } from "react-multi-select-component";
 import { KeyboardArrowLeftOutlined } from "@material-ui/icons";
 
+
+
 const NewCourse = () => {
+
+  
   const { projectId } = useParams();
   const [data, setData] = useState([]);
   const [ugaAlignments, setUgaAlignments] = useState([]);
@@ -22,8 +26,35 @@ const NewCourse = () => {
   const [docID, setDocID] = useState("");
   const [error, setError] = useState("");
   const [selectedUGAAlignments, setSelectedUGAAlignments] = useState([]);
-  const [outcomes, setOutcomes] = useState([{ description: "", alignments: [] }]);
+  const [outcomes, setOutcomes] = useState([
+    { description: "", alignments: [] },
+  ]);
 
+
+  const UGA_OPTIONS = [
+    {
+      value: "A",
+      label: "A - the acquisition, application and integration of knowledge",
+    },
+    {
+      value: "B",
+      label:
+        "B - research skills, including the ability to define problems and access, retrieve and evaluate information (information literacy)",
+    },
+    { value: "C", label: "C - critical thinking and problem-solving skills" },
+    { value: "D", label: "D - literacy and numeracy skills" },
+    {
+      value: "E",
+      label: "E - responsible behaviour to self, others and society",
+    },
+    { value: "F", label: "F - interpersonal and communications skills" },
+    {
+      value: "G",
+      label: "G - teamwork, and personal and group leadership skills",
+    },
+    { value: "H", label: "H - creativity and aesthetic appreciation" },
+    { value: "I", label: "I - the ability and desire for continuous learning" },
+  ];
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -76,6 +107,7 @@ const NewCourse = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("project id", projectId);
     const url = `${BaseURL}addProjectCourse`;
     const config = {
       headers: {
@@ -122,164 +154,160 @@ const NewCourse = () => {
 
   return (
     <React.Fragment>
-    <div className="col-xs-12 col-sm-12 col-md-10 col-lg-10 mt-4 mb-4">
-      <h3><KeyboardArrowLeftOutlined onClick={goBack} />New Course</h3>
-      <div className="row mt-3 mb-3">
-        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <form className="row" onSubmit={handleSubmit}>
-            <div className="col-12">
-              <label>Course</label>
-              <input
-                type="file"
-                placeholder="select"
-                className="form-control"
-                value={file}
-                onChange={(e) => setFile(e.target.value)}
-              />
-            </div>
-            <h2 className="divider mt-3 mb-3 text-center">OR</h2>
-            <div className="row">
-              <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                <label>
-                  Course Code<span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Course Code"
-                  className="form-control"
-                  value={courseCode}
-                  onChange={(e) => setCourseCode(e.target.value)}
-                />
-              </div>
-              <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                <label>Also Known As</label>
-                <input
-                  type="text"
-                  placeholder="Also Known As"
-                  className="form-control"
-                  value={alsoKnownAs}
-                  onChange={(e) => setAlsoKnownAs(e.target.value)}
-                />
-              </div>
-              <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                <label>Formerly Known As</label>
-                <input
-                  type="text"
-                  placeholder="Formerly Known As"
-                  className="form-control"
-                  value={formerlyKnownAs}
-                  onChange={(e) => setFormerlyKnownAs(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="row mt-3">
-              <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                <label>
-                  Course Name<span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Course Name"
-                  className="form-control"
-                  value={courseName}
-                  onChange={(e) => setCourseName(e.target.value)}
-                />
-              </div>
-              <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                <label>
-                  Revision Start<span className="text-danger">*</span>
-                </label>
-                <input
-                  type="date"
-                  placeholder="mm-dd-yyyy"
-                  className="form-control"
-                  value={revisionDate}
-                  onChange={(e) => setRevisionDate(e.target.value)}
-                />
-              </div>
-              <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                <label>Document ID</label>
-                <input
-                  type="text"
-                  placeholder="Course scope"
-                  className="form-control"
-                  value={docID}
-                  onChange={(e) => setDocID(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="row mt-3">
+      <div className="col-xs-12 col-sm-12 col-md-10 col-lg-10 mt-4 mb-4">
+        <h3>
+          <KeyboardArrowLeftOutlined onClick={goBack} />
+          New Course
+        </h3>
+        <div className="row mt-3 mb-3">
+          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form className="row" onSubmit={handleSubmit}>
               <div className="col-12">
-                <h4>Outcomes and UGA Alignments</h4>
-                {outcomes.map((outcome, index) => (
-                  <div key={index} className="row">
-                    <div className="col-4 mt-3">
-                      <label>Description</label>
-                      <textarea
-                        className="form-control"
-                        value={outcome.description}
-                        onChange={(e) => {
-                          const updatedOutcomes = [...outcomes];
-                          updatedOutcomes[index].description = e.target.value;
-                          setOutcomes(updatedOutcomes);
-                        }}
-                      />
-                    </div>
-                    <div className="col-4 mt-3">
-                      <label>UGA Alignments</label>
-                      <MultiSelect
-                        options={ugaAlignments.map((uga) => ({
-                          value: uga.legend,
-                          label: `${uga.legend} - ${uga.description}`,
-                        }))}
-                        value={outcome.alignments}
-                        onChange={(selectedOptions) =>
-                          handleUGAChange(selectedOptions, index)
-                        }
-                        labelledBy="Select UGA Alignment"
-                        selectAllLabel="Select All"
-                        disableSearch={false}
-                        overrideStrings={{
-                          selectSomeItems: "Select UGA Alignments",
-                          allItemsAreSelected: "All UGA Alignments are selected",
-                          searchPlaceholder: "Search UGA Alignments",
-                          noOptions: "No UGA Alignments found",
-                        }}
-                      />
-                    </div>
-
-                    <div className="col-2 mt-3 d-flex justify-content-center align-items-center">
-                      <Button
-                        className={classes.danger}
-                        onClick={() => handleDeleteOutcome(index)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-                <div className="col-12 mt-3">
-                  <Button
-                    type="button"
-                    className={`${classes.primary} add-outcome-button`}
-                    onClick={handleAddOutcome}
-                  >
-                    Add
-                  </Button>
+                <label>Course</label>
+                <input
+                  type="file"
+                  placeholder="select"
+                  className="form-control"
+                  value={file}
+                  onChange={(e) => setFile(e.target.value)}
+                />
+              </div>
+              <h2 className="divider mt-3 mb-3 text-center">OR</h2>
+              <div className="row">
+                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                  <label>
+                    Course Code<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Course Code"
+                    className="form-control"
+                    value={courseCode}
+                    onChange={(e) => setCourseCode(e.target.value)}
+                  />
+                </div>
+                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                  <label>Also Known As</label>
+                  <input
+                    type="text"
+                    placeholder="Also Known As"
+                    className="form-control"
+                    value={alsoKnownAs}
+                    onChange={(e) => setAlsoKnownAs(e.target.value)}
+                  />
+                </div>
+                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                  <label>Formerly Known As</label>
+                  <input
+                    type="text"
+                    placeholder="Formerly Known As"
+                    className="form-control"
+                    value={formerlyKnownAs}
+                    onChange={(e) => setFormerlyKnownAs(e.target.value)}
+                  />
                 </div>
               </div>
-            </div>
 
-            <div className="mt-3">
-              <Button className={classes.primary}>Create Course</Button>
-              {error && <div className="error text-danger">{error}</div>}
-            </div>
-          </form>
+              <div className="row mt-3">
+                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                  <label>
+                    Course Name<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Course Name"
+                    className="form-control"
+                    value={courseName}
+                    onChange={(e) => setCourseName(e.target.value)}
+                  />
+                </div>
+                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                  <label>
+                    Revision Start<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    placeholder="mm-dd-yyyy"
+                    className="form-control"
+                    value={revisionDate}
+                    onChange={(e) => setRevisionDate(e.target.value)}
+                  />
+                </div>
+                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                  <label>Document ID</label>
+                  <input
+                    type="text"
+                    placeholder="Course scope"
+                    className="form-control"
+                    value={docID}
+                    onChange={(e) => setDocID(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="row mt-3">
+                <div className="col-12">
+                  <h4>Outcomes and UGA Alignments</h4>
+                  {outcomes.map((outcome, index) => (
+                    <div key={index} className="row">
+                      <div className="col-4 mt-3">
+                        <label>Description</label>
+                        <textarea
+                          className="form-control"
+                          value={outcome.description}
+                          onChange={(e) => {
+                            const updatedOutcomes = [...outcomes];
+                            updatedOutcomes[index].description = e.target.value;
+                            setOutcomes(updatedOutcomes);
+                          }}
+                        />
+                      </div>
+                      <div className="col-4 mt-3">
+                      <label>UGA Alignments</label>
+                      <select
+                        className="form-control"
+                        value={outcome.alignment}
+                        onChange={(e) => handleUGAChange(e.target.value, index)}
+                      >
+                        <option value="">Select UGA Alignment</option>
+                        {UGA_OPTIONS.map((uga) => (
+                          <option key={uga.value} value={uga.value}>
+                            {uga.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                      <div className="col-2 mt-3 d-flex justify-content-center align-items-center">
+                        <Button
+                          className={classes.danger}
+                          onClick={() => handleDeleteOutcome(index)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="col-12 mt-3">
+                    <Button
+                      type="button"
+                      className={`${classes.primary} add-outcome-button`}
+                      onClick={handleAddOutcome}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3">
+                <Button className={classes.primary}>Create Course</Button>
+                {error && <div className="error text-danger">{error}</div>}
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
     </React.Fragment>
   );
 };

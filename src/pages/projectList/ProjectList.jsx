@@ -100,12 +100,7 @@ const ProjectList = () => {
                       <Button className={classes.warning}>Edit</Button>
                     </Link>
                     &nbsp;&nbsp;&nbsp;
-                    <Button className={classes.danger}>
-                      <DeleteOutline
-                        className={projectListStyle.projectListDelete}
-                        onClick={() => handleDelete(row.id)}
-                      />
-                    </Button>
+                   
                   </td>
                 </tr>
               ))}

@@ -12,7 +12,7 @@ import CourseList from "./pages/courseList/CourseList";
 import Projects from "./pages/projects/Projects";
 import EditProject from "./pages/editProject/EditProject";
 import NewProgram from "./pages/newProgram/newProgram";
-import Programs from "./pages/programs/Programs";
+import Faculties from "./pages/Faculties/Faculties";
 import NewFaculty from "./pages/newFaculty/NewFaculty";
 import Course from "./pages/course/Course";
 import NewCourse from "./pages/newCourse/newCourse";
@@ -37,8 +37,8 @@ function App() {
           <Route path="projects" element={<Projects />} />
           <Route path="project_list" element={<ProjectList />} />
           <Route path="edit-project/:projectId" element={<EditProject />} />
-          <Route path="addProgram" element={<NewProgram />} />
-          <Route path="programs" element={<Programs />} />
+          <Route path="addprojectprogram" element={<NewProgram />} />
+          <Route path="faculties" element={<Faculties />} />
           <Route path="program-list" element={<ProgramList />} />
           <Route path="new-faculty" element={<NewFaculty />} />
 

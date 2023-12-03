@@ -55,11 +55,11 @@ const FeaturedInfo = () => {
             <div className="col-9">
               <h3 className={featureInfoStyle.featuredTitle}>Programs</h3>
               <h4 className={featureInfoStyle.successDigit}>261</h4>
-              <Link to={"/programs"}>
+              <Link to={"/program-list"}>
                 <Button className={classes.primary}>All Programs</Button>
               </Link>
             </div>
-            <div className="col-3">
+            <div className= "col-3">
               <div className={featureInfoStyle.iconBg}>
                 <img src={programIcon} className={featureInfoStyle.icons} />
               </div>

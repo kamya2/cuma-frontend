@@ -159,7 +159,7 @@ const TabCourses = ({ projectId }) => {
             <Button onClick={showOfficialCourseList}>
               Import official courses
             </Button>
-            <Link to={`/new-course/${projectId}`}>
+            <Link to={`/addProjectCourse`}>
               <Button className={classes.primary}>Create new course</Button>
             </Link>
           </ButtonGroup>

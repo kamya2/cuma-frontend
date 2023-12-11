@@ -87,13 +87,13 @@ const ProjectList = () => {
               {currentRows.map((row) => (
                 <tr key={row.id}>
                   <td className="align-middle">
-                    <span>{row.name}</span>
+                    <span><b>{row.name}</b></span>
                   </td>
                   <td className="align-middle">
-                    <span>{row.myRole}</span>
+                    <span>Owner</span>
                   </td>
                   <td className="align-middle">
-                    <span>{row.status}</span>
+                    <span>Active</span>
                   </td>
                   <td className="align-middle">
                     <Link to={`/edit-project/${row.id}`}>

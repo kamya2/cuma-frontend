@@ -54,7 +54,7 @@ const FeaturedInfo = () => {
           <div className="row">
             <div className="col-9">
               <h3 className={featureInfoStyle.featuredTitle}>Programs</h3>
-              <h4 className={featureInfoStyle.successDigit}>261</h4>
+              <h4 className={featureInfoStyle.successDigit}>32</h4>
               <Link to={"/program-list"}>
                 <Button className={classes.primary}>All Programs</Button>
               </Link>
@@ -72,7 +72,7 @@ const FeaturedInfo = () => {
           <div className="row">
             <div className="col-9">
               <h3 className={featureInfoStyle.featuredTitle}>Courses</h3>
-              <h4 className={featureInfoStyle.successDigit}>524</h4>
+              <h4 className={featureInfoStyle.successDigit}>18</h4>
               <Link to={"/course-list"}>
                 <Button className={classes.primary}>All Courses</Button>
               </Link>

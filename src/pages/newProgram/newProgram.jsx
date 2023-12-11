@@ -132,7 +132,7 @@ const NewProgram = () => {
         setError(result.message);
       } else {
         // Redirect to the program list page after creating a new program
-        navigate(`/edit-project/${projectId}/program-list`);
+        navigate(`/edit-project/${projectId}`);
         setError("");
       }
     } catch (error) {

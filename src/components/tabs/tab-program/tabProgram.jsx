@@ -153,7 +153,7 @@ const TabProgram = ({ projectId }) => {
               <Button onClick={showOfficialProgramList}>
                 Import official programs
               </Button>
-               <Link to={"/addProjectProgram"}>
+               <Link to= {`/addProjectProgram/${projectId}`}>
             <Button className={`${classes.primary} float-end`}>
               Create Program
             </Button>

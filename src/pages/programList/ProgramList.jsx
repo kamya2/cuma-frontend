@@ -16,7 +16,7 @@ const ProgramList = () => {
   const [rowsPerPage] = useState(5);
 
   useEffect(() => {
-    const url = `${BaseURL}program_list`;
+    const url = `${BaseURL}getAllProgramsOfProject?id=36`;
     const config = {
       headers: {
         "content-type": "application/json",
@@ -80,9 +80,7 @@ const ProgramList = () => {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Program</th>
-              <th>Status</th>
               <th>Date Revised</th>
               <th>Action</th>
             </tr>
@@ -90,13 +88,10 @@ const ProgramList = () => {
           <tbody>
             {currentRows.map((row) => (
               <tr key={row.id}>
-                <td className="align-middle">{row.id}</td>
                 <td className="align-middle">
                   <span>{row.name}</span>
                 </td>
-                <td className="align-middle">
-                  <span></span>
-                </td>
+               
                 <td className="align-middle">
                   <span>{row.revision_start_date}</span>
                 </td>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BaseURL } from "../../constants";
 import Button from "../../components/button/button";
 import classes from "../../components/button/button.module.css";
@@ -356,9 +356,12 @@ const NewProgram = () => {
               <Button className={classes.primary} onClick={handleConvertToPDF}>
                 Convert to PDF
               </Button>
-              <Button type="submit" className={classes.primary}>
+              <Link to={"/edit-project/36"}>
+              <Button className={classes.primary}>
   Create Program
 </Button>
+              </Link>
+             
                 {error && <div className="error text-danger">{error}</div>}
             </div>
           </form>
